@@ -1,0 +1,22 @@
+[package]
+name = "tailwind_csr"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+leptos = { version = "0.6.15", features = ["csr"] }
+custom-leptos-components = {git="https://github.com/vertec-io/custom-leptos-components", features = ["csr"]}
+# web-sys = "0.3.70"
+wasm-bindgen = "0.2"
+console_log = "0.2"  
+log = "0.4"
+console_error_panic_hook = "0.1"
+router = "0.6.0"
+leptos_meta = "0.6.15"
+leptos_router = { version = "0.6.15", features = ["csr"] }
+thaw = { version = "0.3.4", features = ["csr"] }
+rand = "0.8.5"
+
+[dependencies.web-sys]
+version = "0.3.70"
+features = ['CanvasRenderingContext2d', 'Document', 'Element', 'HtmlCanvasElement', 'Window']
