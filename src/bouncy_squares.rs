@@ -1,24 +1,17 @@
-use leptos::html::Canvas;
 use leptos::prelude::*;
 use wasm_bindgen::prelude::Closure;
 use wasm_bindgen::JsCast;
 use web_sys::{CanvasRenderingContext2d, HtmlCanvasElement, window};
 use std::rc::Rc;
 use std::cell::RefCell;
-use rand::Rng;
-
 use crate::portal_provider::PortalContext;
 use crate::portal_provider::CanvasContainer;
-
 
 #[component]
 pub fn BouncingSquaresCanvas() -> impl IntoView {
     let portal_context = expect_context::<PortalContext>();
     let canvas_ref = portal_context.canvas_ref.take();
-
     let squares = Rc::new(RefCell::new(Vec::new()));
-
-    let (count, set_count) = signal(0);
 
     Effect::new(move |_| {
         if let Some(canvas_element) = canvas_ref.get() {
