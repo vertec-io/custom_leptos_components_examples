@@ -1,8 +1,8 @@
-use leptos::*;
+use leptos::prelude::*;
 
 #[component]
 pub fn Navigation() -> impl IntoView {
-    let (current_route, set_current_route) = create_signal(String::from("/"));
+    let (current_route, set_current_route) = signal(String::from("/"));
 
     let base_style = "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-secondary/90 hover:cursor-pointer";
 

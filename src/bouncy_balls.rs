@@ -1,20 +1,20 @@
-use leptos::html::Canvas;
-use leptos::*;
+use leptos::prelude::*;
 use wasm_bindgen::prelude::Closure;
 use wasm_bindgen::JsCast;
 use web_sys::{CanvasRenderingContext2d, HtmlCanvasElement, window};
 use std::rc::Rc;
 use std::cell::RefCell;
 
+use crate::portal_provider::PortalContext;
+use crate::portal_provider::CanvasContainer;
+
 #[component]
 pub fn BouncingBallsCanvas() -> impl IntoView {
-    // Retrieve the canvas NodeRef from context
-    let canvas_ref = use_context::<NodeRef<Canvas>>()
-        .expect("Canvas NodeRef should be set in context");
+    let portal_context = expect_context::<PortalContext>();
+    let canvas_ref = portal_context.canvas_ref.take();
 
     let balls = Rc::new(RefCell::new(Vec::new()));
-
-    create_effect(move |_| {
+    Effect::new(move |_| {
         if let Some(canvas_element) = canvas_ref.get() {
             let canvas: HtmlCanvasElement = <HtmlCanvasElement as Clone>::clone(&canvas_element).dyn_into().unwrap();
             canvas.set_width(800);
@@ -53,7 +53,10 @@ pub fn BouncingBallsCanvas() -> impl IntoView {
         }
     });
 
-    view! { }
+    view! {
+        // The canvas_id must be unique to this component otherwise the canvas won't update
+        <CanvasContainer canvas_id="ui-canvas-balls"/>
+     }
 }
 
 // Ball structure to store properties of each ball
@@ -76,7 +79,7 @@ fn initialize_balls(balls: &mut Vec<Ball>, count: usize, width: f64, height: f64
             vx: (rand::random::<f64>() - 0.5) * 10.0,
             vy: (rand::random::<f64>() - 0.5) * 10.0,
             radius: 5.0,
-            color: colors[rand::random::<usize>() % colors.len()],
+            color: colors[rand::random::<u32>() as usize % colors.len()],
         });
     }
 }
